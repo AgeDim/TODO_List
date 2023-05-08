@@ -3,17 +3,17 @@ package com.example.backtodo.entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "user", schema = "public", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(name = "users", schema = "todo-list", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class UserEntity {
 
     @Id
-    @SequenceGenerator(name = "user_id_sequense", sequenceName = "user_id_sequense", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequense")
+    @SequenceGenerator(name = "user_id_sequence", sequenceName = "user_id_sequence", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence")
     @Column(name = "id", columnDefinition = "serial primary key")
     private Long id;
 

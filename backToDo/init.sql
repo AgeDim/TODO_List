@@ -4,26 +4,24 @@ CREATE TYPE color AS ENUM ('Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Violet')
 
 CREATE TABLE users
 (
-    id       integer PRIMARY KEY,
+    id       serial PRIMARY KEY,
     name     varchar(31) UNIQUE NOT NULL,
     password varchar(63)        NOT NULL
 );
-CREATE TABLE lists
+CREATE TABLE task_lists
 (
-    id      integer PRIMARY KEY,
+    id      serial PRIMARY KEY,
     name    varchar(31) NOT NULL,
-    priority priority,
-    user_id integer     NOT NULL REFERENCES users ON DELETE RESTRICT
+    user_id integer NOT NULL REFERENCES users ON DELETE RESTRICT
 );
 CREATE TABLE tasks
 (
-    id       integer PRIMARY KEY,
-    name     varchar(31) NOT NULL,
+    id       serial PRIMARY KEY,
+    name     varchar(255) NOT NULL,
     comment  text,
     deadline date,
     status   status      NOT NULL,
     priority priority,
     color    color,
-    user_id  integer     NOT NULL REFERENCES users ON DELETE RESTRICT,
-    list_id  integer REFERENCES lists ON DELETE RESTRICT
+    list_id  integer NOT NULL REFERENCES lists ON DELETE RESTRICT
 );
