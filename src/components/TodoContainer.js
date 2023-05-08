@@ -5,7 +5,7 @@ import InputTodo from './InputTodo';
 import TodosList from './TodosList';
 import Navbar from './Navbar';
 import {Context} from "../index";
-import {getSelectedTodo, getTodos} from "../http/TodosAPI";
+import {getSelectedTodo} from "../http/TodosAPI";
 import {observer} from "mobx-react-lite";
 import ListsBar from "./ListsBar";
 import "../css/ToDoContainer.css"
@@ -20,11 +20,11 @@ const TodoContainer = observer(() => {
         })
     }, [user.user.email])
 
-    useEffect(()=>{
+    useEffect(() => {
         getSelectedTodo(user.selectedList, user.user.email).then(data => {
             setTodos(data)
         })
-    },[user.selectedList])
+    }, [user.selectedList])
 
     const handleChange = (id) => {
         setTodos((prevState) => prevState.map((todo) => {
@@ -44,20 +44,35 @@ const TodoContainer = observer(() => {
         ]);
     };
 
-    const addTodoItem = (title) => {
+    const addTodoItem = (title, deadLine, priority) => {
         const newTodo = {
             id: uuidv4(),
             title,
-            completed: false,
+            status: "TODO",
+            deadLine: deadLine,
+            priority: priority
         };
         setTodos([...todos, newTodo]);
     };
 
-    const setUpdate = (updatedTitle, id) => {
+    const setUpdate = (updatedValue, type, id) => {
         setTodos(
             todos.map((todo) => {
                 if (todo.id === id) {
-                    todo.title = updatedTitle;
+                    switch (type) {
+                        case 'title':
+                            todo.title = updatedValue
+                            break
+                        case 'deadLine':
+                            todo.deadLine = updatedValue
+                            break
+                        case 'priority':
+                            todo.priority = updatedValue
+                            break
+                        case 'status':
+                            todo.status = updatedValue
+                            break
+                    }
                 }
                 return todo;
             }),
