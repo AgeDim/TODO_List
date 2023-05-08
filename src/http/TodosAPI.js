@@ -1,6 +1,6 @@
 import axios from "../axiosAPI";
 
-export const getTodos = async (email) => {
-    const {data} = await axios.get("/todos/"+ email)
+export const getSelectedTodo = async (list, email) => {
+    const {data} = await axios.get("/list/todos/get/" + email + '/' +list.id)
     return data
 }
