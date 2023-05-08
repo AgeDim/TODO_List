@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface TaskListRepository extends JpaRepository<TaskListEntity, Long> {
-
     List<TaskListEntity> getTaskListEntitiesByUserId(Long userId);
 
 }

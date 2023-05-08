@@ -23,9 +23,6 @@ public class TaskEntity {
     @Column(name = "name", columnDefinition = "varchar(255) NOT NULL")
     private String name;
 
-    @Column(name = "comment", columnDefinition = "text")
-    private String comment;
-
     @Temporal(TemporalType.DATE)
     @Column(name="deadline", columnDefinition = "date")
     private Date deadline;
@@ -41,9 +38,8 @@ public class TaskEntity {
     @Column(name = "list_id", columnDefinition = "integer NOT NULL REFERENCES lists ON DELETE RESTRICT")
     private Long listId;
 
-    public TaskEntity(String name, String comment, Date deadline, Status status, Priority priority, Long listId){
+    public TaskEntity(String name, Date deadline, Status status, Priority priority, Long listId){
         this.name = name;
-        this.comment = comment;
         this.deadline = deadline;
         this.status = status;
         this.priority = priority;

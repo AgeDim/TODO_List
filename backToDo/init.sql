@@ -17,7 +17,6 @@ CREATE TABLE tasks
 (
     id       serial PRIMARY KEY,
     name     varchar(255) NOT NULL,
-    comment  text,
     deadline date,
     status   status      NOT NULL,
     priority priority,
