@@ -1,6 +1,5 @@
 CREATE TYPE status AS ENUM ('To Do', 'In progress', 'Completed');
 CREATE TYPE priority AS ENUM ('High', 'Medium', 'Low');
-CREATE TYPE color AS ENUM ('Red', 'Blue', 'Green', 'Yellow', 'Orange', 'Violet');
 
 CREATE TABLE users
 (
@@ -22,6 +21,5 @@ CREATE TABLE tasks
     deadline date,
     status   status      NOT NULL,
     priority priority,
-    color    color,
     list_id  integer NOT NULL REFERENCES lists ON DELETE RESTRICT
 );

@@ -27,7 +27,8 @@ public class TaskEntity {
     private String comment;
 
     @Temporal(TemporalType.DATE)
-    private Date date;
+    @Column(name="deadline", columnDefinition = "date")
+    private Date deadline;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "status NOT NULL")
@@ -37,20 +38,15 @@ public class TaskEntity {
     @Column(name="priority", columnDefinition = "priority")
     private Priority priority;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "color", columnDefinition = "color")
-    private Color color;
-
     @Column(name = "list_id", columnDefinition = "integer NOT NULL REFERENCES lists ON DELETE RESTRICT")
     private Long listId;
 
-    public TaskEntity(String name, String comment, Date date, Status status, Priority priority, Color color, Long listId){
+    public TaskEntity(String name, String comment, Date deadline, Status status, Priority priority, Long listId){
         this.name = name;
         this.comment = comment;
-        this.date = date;
+        this.deadline = deadline;
         this.status = status;
         this.priority = priority;
-        this.color = color;
         this.listId = listId;
     }
 }
