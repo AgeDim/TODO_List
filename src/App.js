@@ -1,14 +1,21 @@
-import './App.css';
-import {BrowserRouter as Router} from "react-router-dom";
+import './css/App.css';
+import {BrowserRouter, useHistory} from "react-router-dom";
 import React, {useContext, useEffect, useState} from "react";
-import TodoContainer from "./components/TodoContainer";
 import {Context} from "./index";
 import {Spinner} from "react-bootstrap";
 import {check} from "./http/UserAPI";
+import AppRouter from "./components/AppRouter";
+import {LOGIN_ROUTE} from "./utils/consts";
 
 function App() {
     const {user} = useContext(Context);
     const [loading, setLoading] = useState(true)
+    const history = useHistory()
+
+    const logout = () => {
+        user.setUser({})
+        user.setIsAuth(false)
+    }
 
     useEffect(() => {
         check().then((data) => {
@@ -30,9 +37,13 @@ function App() {
     }
 
     return (
-        <Router basename={process.env.PUBLIC_URL}>
-            <TodoContainer/>
-        </Router>
+        <BrowserRouter>
+            {!user.isAuth ? <button className="login_btn" onClick={()=>{history.push(LOGIN_ROUTE)}}>Login</button> :
+                <button className="logout_btn" onClick={() => {
+                    logout()
+                }}>Logout</button>}
+            <AppRouter/>
+        </BrowserRouter>
     );
 }
 

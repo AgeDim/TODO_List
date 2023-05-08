@@ -1,18 +1,16 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import Header from './Header';
-import {Redirect, Route, Switch} from 'react-router-dom';
 import InputTodo from './InputTodo';
 import TodosList from './TodosList';
-import About from '../pages/About';
-import NotMatch from '../pages/NotMatch';
 import Navbar from './Navbar';
 import {Context} from "../index";
-import LoginPage from "../pages/LoginPage";
-import RegisterPage from "../pages/RegisterPage";
 import {getTodos} from "../http/TodosAPI";
+import {observer} from "mobx-react-lite";
+import ListsBar from "./ListsBar";
+import "../css/ToDoContainer.css"
 
-const TodoContainer = () => {
+const TodoContainer = observer(() => {
     const {user} = useContext(Context)
     const [todos, setTodos] = useState([]);
     useEffect(() => {
@@ -64,39 +62,25 @@ const TodoContainer = () => {
     };
 
     return (
-        <>
+        <div className="container">
             {user.isAuth && <Navbar/>}
-            <Switch>
-                <Route path="/login">
-                    <LoginPage/>
-                </Route>
-                <Route path="/register">
-                    <RegisterPage/>
-                </Route>
-                {user.isAuth && <Route exact path="/">
-                    <div className="container">
-                        <div className="inner">
-                            <Header/>
-                            <InputTodo addTodoProps={addTodoItem}/>
-                            <TodosList
-                                todos={todos}
-                                handleChangeProps={handleChange}
-                                deleteTodoProps={delTodo}
-                                setUpdate={setUpdate}
-                            />
-                        </div>
-                    </div>
-                </Route>}{user.isAuth &&
-                <Route path="/about">
-                    <About/>
-                </Route>}{user.isAuth &&
-                <Route path="*">
-                    <NotMatch/>
-                </Route>}
-                {user.isAuth ? <Redirect to={"/"}/> : !user.isAuth && <Redirect to={"/login"}/>}
-            </Switch>
-        </>
+            <div className="inner">
+                <div className="typeBar">
+                    <ListsBar/>
+                </div>
+                <div className="todos">
+                    <Header/>
+                    <InputTodo addTodoProps={addTodoItem}/>
+                    <TodosList
+                        todos={todos}
+                        handleChangeProps={handleChange}
+                        deleteTodoProps={delTodo}
+                        setUpdate={setUpdate}
+                    />
+                </div>
+            </div>
+        </div>
     );
-};
+});
 
 export default TodoContainer;

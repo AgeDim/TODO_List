@@ -1,0 +1,10 @@
+.typeBar {
+    margin-top: 250px !important;
+    float: left;
+    width: 20%;
+}
+
+.todos {
+    float: left;
+    width: 80%;
+}

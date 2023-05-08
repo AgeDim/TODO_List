@@ -1,8 +1,9 @@
 import React from 'react';
 import TodoItem from './TodoItem';
+import "../css/ToDoList.css"
 
 const TodosList = (props) => (
-    <ul>
+    <ul className="scroll">
         {props.todos.map((todo) => (
             <TodoItem
                 key={todo.id}
