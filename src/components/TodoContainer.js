@@ -10,21 +10,19 @@ import Navbar from './Navbar';
 import {Context} from "../index";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import {getTodos} from "../http/TodosAPI";
 
 const TodoContainer = () => {
     const {user} = useContext(Context)
-
-    function getInitialTodos() {
-        const temp = localStorage.getItem('todos');
-        const savedTodos = JSON.parse(temp);
-        return savedTodos || [];
-    }
-
-    const [todos, setTodos] = useState(getInitialTodos());
+    const [todos, setTodos] = useState([]);
+    useEffect(() => {
+        getTodos(user.user.email).then(data => {
+            setTodos(data)
+        })
+    }, [user.user.email])
 
     useEffect(() => {
-        const temp = JSON.stringify(todos);
-        localStorage.setItem('todos', temp);
+        localStorage.setItem('todos', JSON.stringify(todos));
     }, [todos]);
 
     const handleChange = (id) => {
@@ -95,7 +93,7 @@ const TodoContainer = () => {
                 <Route path="*">
                     <NotMatch/>
                 </Route>}
-                {user.isAuth ? <Redirect to={"/"}/>:!user.isAuth && <Redirect to={"/login"}/>}
+                {user.isAuth ? <Redirect to={"/"}/> : !user.isAuth && <Redirect to={"/login"}/>}
             </Switch>
         </>
     );
