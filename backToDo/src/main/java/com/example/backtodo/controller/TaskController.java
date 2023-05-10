@@ -7,22 +7,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("http://localhost:3000/lists/tasks")
+@CrossOrigin("http://localhost:3000")
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
-    @GetMapping("/")
-    public ResponseEntity<?> getTasks(@RequestParam Long listId){
+    @GetMapping("/lists/tasks")
+    public ResponseEntity<?> getTasks(@RequestParam Long id){
         try {
-            return ResponseEntity.ok(taskService.getTasks(listId));
+            return ResponseEntity.ok(taskService.getTasks(id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("An error occurred on the server");
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/lists/tasks/add")
     public ResponseEntity<?> addTask(@RequestBody TaskRequestObject addRequest){
         try {
             taskService.addTask(addRequest);
@@ -32,7 +32,7 @@ public class TaskController {
         }
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/lists/tasks/delete")
     public ResponseEntity<?> deleteTask(@RequestParam Long taskId){
         try {
             taskService.deleteTask(taskId);
@@ -42,7 +42,7 @@ public class TaskController {
         }
     }
 
-    @PostMapping("/change/{taskId}")
+    @PostMapping("/lists/tasks/change/{taskId}")
     public ResponseEntity<?> changeTaskInfo(@PathVariable Long taskId, @RequestBody TaskRequestObject taskRequestObject){
         try {
             taskService.changeTaskInfo(taskId, taskRequestObject);

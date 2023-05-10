@@ -2,8 +2,8 @@ import {makeAutoObservable} from "mobx";
 
 export default class UserStore {
     constructor() {
-        this._isAuth = true
-        this._user = {email: 'dima@mail.ru', password: 'awawdawdawd'}
+        this._isAuth = false
+        this._user = {email: '', password: ''}
         this._lists = []
         this._selectedList = ""
         makeAutoObservable(this)
@@ -26,19 +26,20 @@ export default class UserStore {
     get user() {
         return this._user
     }
-    get lists(){
+
+    get lists() {
         return this._lists
     }
 
-    get selectedList(){
+    get selectedList() {
         return this._selectedList
     }
 
-    setLists(lists){
+    setLists(lists) {
         this._lists = lists
     }
 
-    setSelectedList(id){
+    setSelectedList(id) {
         this._selectedList = id
     }
 }

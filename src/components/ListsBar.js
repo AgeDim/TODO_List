@@ -4,10 +4,16 @@ import {Card, ListGroup} from "react-bootstrap";
 import {Context} from "../index";
 import {FaPlusCircle} from "react-icons/fa";
 import AddList from "./Modal/AddList";
+import {FaTrash} from 'react-icons/fa';
+import {deleteListOfToDos} from "../http/ListsAPI";
 
 const ListsBar = observer(() => {
     const {user} = useContext(Context)
     const [listsVisible, setListsVisible] = useState(false)
+    const removeList = (id) => {
+        deleteListOfToDos(id)
+        user.setLists(user.lists.filter(item => item.id !== id))
+    }
     return (<Card style={{
         width: 230, boxShadow: "6px 5px 18px 15px rgba(34, 60, 80, 0.2)", left: 0, marginLeft: 10
     }}>
@@ -33,7 +39,11 @@ const ListsBar = observer(() => {
                                                     active={type.id === user.selectedList.id}
                                                     onClick={() => user.setSelectedList(type)}
                                                     value={type.name}
-                                                    key={type.name}>{type.name}</ListGroup.Item>)}
+                                                    key={type.name}>{type.name}<FaTrash size={20} color={"red"}
+                                                                                        style={{float: "right"}}
+                                                                                        onClick={() => {
+                                                                                            removeList(type.id)
+                                                                                        }}/></ListGroup.Item>)}
 
         </ListGroup>
     </Card>);

@@ -10,12 +10,12 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "task_lists", schema = "todo-list")
+@Table(name = "task_lists", schema = "public")
 public class TaskListEntity {
 
     @Id
-    @SequenceGenerator(name = "task_list_id_sequence", sequenceName = "task_list_id_sequence", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_list_id_sequence")
+    @SequenceGenerator(name = "task_lists_id_seq", sequenceName = "task_lists_id_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_lists_id_seq")
     @Column(name = "id", columnDefinition = "serial primary key")
     private Long id;
 

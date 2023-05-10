@@ -5,7 +5,7 @@ import InputTodo from './InputTodo';
 import TodosList from './TodosList';
 import Navbar from './Navbar';
 import {Context} from "../index";
-import {getSelectedTodo, getTodos} from "../http/TodosAPI";
+import {getSelectedTodo} from "../http/TodosAPI";
 import {observer} from "mobx-react-lite";
 import ListsBar from "./ListsBar";
 import "../css/ToDoContainer.css"
@@ -16,15 +16,16 @@ const TodoContainer = observer(() => {
     const [todos, setTodos] = useState([]);
     useEffect(() => {
         getListOfToDos(user.user.email).then(data => {
-            setTodos(data)
+            user.setLists(data)
+            user.setSelectedList(data[0])
         })
     }, [user.user.email])
 
-    useEffect(()=>{
-        getSelectedTodo(user.selectedList, user.user.email).then(data => {
+    useEffect(() => {
+        getSelectedTodo(user.selectedList).then(data => {
             setTodos(data)
         })
-    },[user.selectedList])
+    }, [user.selectedList])
 
     const handleChange = (id) => {
         setTodos((prevState) => prevState.map((todo) => {

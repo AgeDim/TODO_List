@@ -7,36 +7,35 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("http://localhost:3000/lists")
+@CrossOrigin("http://localhost:3000")
 public class TaskListController {
 
     @Autowired
     private TaskListService taskListService;
 
-    @GetMapping("/")
-    public ResponseEntity<?> getLists(@RequestParam String user){
+    @GetMapping("/lists")
+    public ResponseEntity<?> getLists(@RequestParam String email) {
         try {
-            return ResponseEntity.ok(taskListService.getListsByUser(user));
+            return ResponseEntity.ok(taskListService.getListsByUser(email));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("An error occurred on the server");
         }
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<?> addList(@RequestBody TaskListAddRequest addRequest){
+    @PostMapping("/lists/add")
+    public ResponseEntity<?> addList(@RequestBody TaskListAddRequest addRequest) {
         try {
-            taskListService.addTaskList(addRequest.getEmail(), addRequest.getTitle());
-             return ResponseEntity.ok("Task list added.");
+            return ResponseEntity.ok(taskListService.addTaskList(addRequest.getEmail(), addRequest.getTitle()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("An error occurred on the server");
         }
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<?> deleteList(@RequestParam Long taskListId){
+    @PostMapping("/lists/delete/{id}")
+    public ResponseEntity<?> deleteList(@PathVariable Long id) {
         try {
-            taskListService.deleteTaskList(taskListId);
-            return ResponseEntity.ok("Task list added.");
+            taskListService.deleteTaskList(id);
+            return ResponseEntity.ok("Task list deleted.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("An error occurred on the server");
         }

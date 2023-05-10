@@ -11,12 +11,12 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "tasks", schema = "todo-list")
+@Table(name = "tasks", schema = "public")
 public class TaskEntity {
 
     @Id
-    @SequenceGenerator(name = "task_id_sequence", sequenceName = "task_id_sequence", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_id_sequence")
+    @SequenceGenerator(name = "tasks_id_seq", sequenceName = "tasks_id_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasks_id_seq")
     @Column(name = "id", columnDefinition = "serial primary key")
     private Long id;
 

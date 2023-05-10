@@ -21,9 +21,9 @@ public class TaskListService {
         return taskListRepository.getTaskListEntitiesByUserId(userRepository.findByEmail(email).getId());
     }
 
-    public void addTaskList(String email, String name){
+    public TaskListEntity addTaskList(String email, String name){
         TaskListEntity taskList = new TaskListEntity(name, userRepository.findByEmail(email).getId());
-        taskListRepository.save(taskList);
+        return taskListRepository.save(taskList);
     }
 
     public void deleteTaskList(Long listId){

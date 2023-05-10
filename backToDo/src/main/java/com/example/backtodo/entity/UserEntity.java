@@ -8,12 +8,12 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "users", schema = "todo-list", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
+@Table(name = "users", schema = "public", uniqueConstraints = {@UniqueConstraint(columnNames = "email")})
 public class UserEntity {
 
     @Id
-    @SequenceGenerator(name = "user_id_sequence", sequenceName = "user_id_sequence", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence")
+    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", initialValue = 1, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
     @Column(name = "id", columnDefinition = "serial primary key")
     private Long id;
 

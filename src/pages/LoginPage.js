@@ -22,7 +22,7 @@ const LoginPage = observer(() => {
             user.setIsAuth(true)
             history.push("/")
         } catch (e) {
-            alert(e.response.data.message)
+            alert(e)
         }
 
     }
