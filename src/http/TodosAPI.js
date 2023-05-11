@@ -8,6 +8,7 @@ export const getSelectedTodo = async (list) => {
 export const addTodo = async (todo, listId) => {
     const {data} = await axios.post("/lists/tasks/add", {
         name: todo.title,
+        //change type of time
         deadline: todo.deadLine,
         status: todo.status,
         priority: todo.priority,
