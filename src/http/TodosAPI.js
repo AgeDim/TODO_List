@@ -10,7 +10,7 @@ export const addTodo = async (todo, listId) => {
         name: todo.title,
         deadline: todo.deadLine,
         status: todo.status,
-        priority: todo.priority,
+        priority: todo.priority.toUpperCase(),
         listId: listId
     })
     return data

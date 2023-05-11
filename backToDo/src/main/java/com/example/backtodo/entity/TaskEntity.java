@@ -27,12 +27,10 @@ public class TaskEntity {
     @Column(name="deadline", columnDefinition = "date")
     private Date deadline;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", columnDefinition = "status NOT NULL")
+    @Column(name = "status", columnDefinition = "varchar(20) NOT NULL")
     private Status status;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="priority", columnDefinition = "priority")
+    @Column(name="priority", columnDefinition = "varchar(20)")
     private Priority priority;
 
     @Column(name = "list_id", columnDefinition = "integer NOT NULL REFERENCES lists ON DELETE RESTRICT")

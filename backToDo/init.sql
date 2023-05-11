@@ -1,6 +1,4 @@
 SET search_path TO public;
-CREATE TYPE status AS ENUM ('To Do', 'In progress', 'Completed');
-CREATE TYPE priority AS ENUM ('High', 'Medium', 'Low');
 
 CREATE TABLE users
 (
@@ -19,7 +17,7 @@ CREATE TABLE tasks
     id       serial PRIMARY KEY,
     name     varchar(255) NOT NULL,
     deadline date,
-    status   status      NOT NULL,
-    priority priority,
+    status   varchar(20) NOT NULL,
+    priority varchar(20),
     list_id  integer NOT NULL REFERENCES task_lists(id) ON DELETE RESTRICT
 );
