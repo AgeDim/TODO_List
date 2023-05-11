@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import styles from '../css/TodoItem.module.css';
 import {Collapse, Dropdown, Button} from "@nextui-org/react";
 import {FaTrash} from "react-icons/fa";
+import DatePicker from "react-datepicker"
+import 'react-datepicker/dist/react-datepicker.css'
 
 const TodoItem = (props) => {
     const [editingTitle, setEditingTitle] = useState(false);
@@ -87,22 +89,6 @@ const TodoItem = (props) => {
                 />
             </li>
             <li className={styles.item}>
-                <h3 style={{marginRight: 10}}>DeadLine:</h3>
-                <div onDoubleClick={handleEditingDeadLine} style={viewModeDeadLine}>
-                    <span style={status === "Completed" ? completedStyle : null}>{deadLine}</span>
-                </div>
-                <input
-                    type="text"
-                    style={editModeDeadLine}
-                    className={styles.textInput}
-                    value={deadLine}
-                    onChange={(e) => {
-                        props.setUpdate(e.target.value, 'deadLine', id);
-                    }}
-                    onKeyDown={handleUpdatedDone}
-                />
-            </li>
-            <li className={styles.item}>
                 <h3 style={{marginRight: 10}}>Priority:</h3>
                 <Dropdown style={status === "Completed" ? completedStyle : null}>
                     <Dropdown.Button flat color="black" css={{tt: "capitalize"}}>
@@ -146,7 +132,10 @@ const TodoItem = (props) => {
                     </Dropdown.Menu>
                 </Dropdown>
             </li>
-
+            <li className={styles.item}>
+                <h3 style={{marginRight: 10}}>DeadLine:</h3>
+                <DatePicker dateFormat="dd.MM.yyyy" selected={deadLine} onChange={(date)=>{props.setUpdate(date, 'deadLine', id)}}/>
+            </li>
             <button className="button" style={{marginTop: 10, border: "none", float: "right"}}
                     onClick={() => props.deleteTodoProps(id)}>
                 <FaTrash size={30} style={{color: 'orangered', fontSize: '16px'}}/>
