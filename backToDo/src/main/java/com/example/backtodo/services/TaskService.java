@@ -27,11 +27,12 @@ public class TaskService {
     }
 
     public void addTask(TaskRequestObject taskRequestObject) throws ParseException {
+        System.out.println(taskRequestObject.getPriority());
         TaskEntity taskEntity = new TaskEntity(
                 taskRequestObject.getName(),
                 format.parse(taskRequestObject.getDeadline()),
                 Status.valueOf(taskRequestObject.getStatus()),
-                Priority.valueOf(taskRequestObject.getPriority()),
+                Priority.valueOf(taskRequestObject.getPriority().trim().toUpperCase(Locale.ENGLISH)),
                 taskRequestObject.getListId()
         );
         taskRepository.save(taskEntity);

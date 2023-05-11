@@ -5,7 +5,7 @@ import InputTodo from './InputTodo';
 import TodosList from './TodosList';
 import Navbar from './Navbar';
 import {Context} from "../index";
-import {getSelectedTodo, getTodos} from "../http/TodosAPI";
+import {addTodo, getSelectedTodo} from "../http/TodosAPI";
 import {observer} from "mobx-react-lite";
 import ListsBar from "./ListsBar";
 import "../css/ToDoContainer.css"
@@ -22,7 +22,7 @@ const TodoContainer = observer(() => {
     }, [user.user.email])
 
     useEffect(()=>{
-        getSelectedTodo(user.selectedList, user.user.email).then(data => {
+        getSelectedTodo(user.selectedList).then(data => {
             setTodos(data)
         })
     },[user.selectedList])
@@ -53,6 +53,7 @@ const TodoContainer = observer(() => {
             deadLine: deadLine,
             priority: priority
         };
+        addTodo(newTodo, user.selectedList.id)
         setTodos([...todos, newTodo]);
     };
 

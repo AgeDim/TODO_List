@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import styles from '../css/TodoItem.module.css';
-import {Collapse, Dropdown} from "@nextui-org/react";
+import {Collapse, Dropdown, Button} from "@nextui-org/react";
 import {FaTrash} from "react-icons/fa";
 
 const TodoItem = (props) => {
@@ -104,23 +104,29 @@ const TodoItem = (props) => {
             </li>
             <li className={styles.item}>
                 <h3 style={{marginRight: 10}}>Priority:</h3>
-                <div onDoubleClick={handleEditingPriority} style={viewModePriority}>
-                    <span style={status === "Completed" ? completedStyle : null}>{priority}</span>
-                </div>
-                <input
-                    type="text"
-                    style={editModePriority}
-                    className={styles.textInput}
-                    value={priority}
-                    onChange={(e) => {
-                        props.setUpdate(e.target.value, 'priority', id);
-                    }}
-                    onKeyDown={handleUpdatedDone}
-                />
+                <Dropdown style={status === "Completed" ? completedStyle : null}>
+                    <Dropdown.Button flat color="black" css={{tt: "capitalize"}}>
+                        {priority}
+                    </Dropdown.Button>
+                    <Dropdown.Menu
+                        aria-label="Single selection actions"
+                        color="secondary"
+                        disallowEmptySelection
+                        selectionMode="single"
+                        selectedKeys={priority}
+                        onSelectionChange={(e) => {
+                            props.setUpdate(e.anchorKey, 'priority', id);
+                        }}
+                    >
+                        <Dropdown.Item key="High">High</Dropdown.Item>
+                        <Dropdown.Item key="Medium">Medium</Dropdown.Item>
+                        <Dropdown.Item key="Low">Low</Dropdown.Item>
+                    </Dropdown.Menu>
+                </Dropdown>
             </li>
             <li className={styles.item}>
                 <h3 style={{marginRight: 10}}>Status:</h3>
-                <Dropdown style={status === "Completed" ? completedStyle : null} >
+                <Dropdown style={status === "Completed" ? completedStyle : null}>
                     <Dropdown.Button flat color="black" css={{tt: "capitalize"}}>
                         {status}
                     </Dropdown.Button>
@@ -134,15 +140,20 @@ const TodoItem = (props) => {
                             props.setUpdate(e.anchorKey, 'status', id);
                         }}
                     >
-                        <Dropdown.Item key="TODO">TODO</Dropdown.Item>
-                        <Dropdown.Item key="InProcess">InProcess</Dropdown.Item>
+                        <Dropdown.Item key="TODO">To Do</Dropdown.Item>
+                        <Dropdown.Item key="InProcess">In progress</Dropdown.Item>
                         <Dropdown.Item key="Completed">Completed</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </li>
-            <button className="button" style={{marginTop:10, border:"none", float:"right"}} onClick={() => props.deleteTodoProps(id)}>
+
+            <button className="button" style={{marginTop: 10, border: "none", float: "right"}}
+                    onClick={() => props.deleteTodoProps(id)}>
                 <FaTrash size={30} style={{color: 'orangered', fontSize: '16px'}}/>
             </button>
+            <Button shadow color="success" style={{marginTop: 10, border: "none", marginLeft: 10}} auto>
+                Success
+            </Button>
         </Collapse>
     );
 };
