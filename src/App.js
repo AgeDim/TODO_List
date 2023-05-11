@@ -15,6 +15,7 @@ function App() {
     const logout = () => {
         user.setUser({})
         user.setIsAuth(false)
+        localStorage.setItem('token', '')
     }
 
     useEffect(() => {

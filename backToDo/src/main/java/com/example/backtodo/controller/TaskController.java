@@ -27,29 +27,27 @@ public class TaskController {
     public ResponseEntity<?> addTask(@RequestBody TaskRequestObject addRequest){
         System.out.println("PISYA");
         try {
-            taskService.addTask(addRequest);
-            return ResponseEntity.ok().body("Task added.");
+            return ResponseEntity.ok().body(taskService.addTask(addRequest));
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.badRequest().body("An error occurred on the server");
         }
     }
 
-    @PostMapping("/lists/tasks/delete")
-    public ResponseEntity<?> deleteTask(@RequestParam Long taskId){
+    @PostMapping("/lists/tasks/delete/{id}")
+    public ResponseEntity<?> deleteTask(@PathVariable Long id){
         try {
-            taskService.deleteTask(taskId);
-            return ResponseEntity.ok().body("Task added.");
+            taskService.deleteTask(id);
+            return ResponseEntity.ok().body("Task deleted.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("An error occurred on the server");
         }
     }
 
-    @PostMapping("/lists/tasks/change/{taskId}")
-    public ResponseEntity<?> changeTaskInfo(@PathVariable Long taskId, @RequestBody TaskRequestObject taskRequestObject){
+    @PostMapping("/lists/tasks/change/{id}")
+    public ResponseEntity<?> changeTaskInfo(@PathVariable Long id, @RequestBody TaskRequestObject taskRequestObject){
         try {
-            taskService.changeTaskInfo(taskId, taskRequestObject);
-            return ResponseEntity.ok().body("Task info changed.");
+            return ResponseEntity.ok().body(taskService.changeTaskInfo(id, taskRequestObject));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("An error occurred on the server");
         }

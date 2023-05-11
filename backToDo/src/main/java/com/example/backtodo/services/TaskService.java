@@ -6,6 +6,7 @@ import com.example.backtodo.entity.Status;
 import com.example.backtodo.entity.TaskEntity;
 import com.example.backtodo.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -17,7 +18,7 @@ import java.util.Locale;
 @Service
 public class TaskService {
 
-    private final DateFormat format = new SimpleDateFormat("dd.MM.yyyy", Locale.ENGLISH);
+    private final DateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
     @Autowired
     private TaskRepository taskRepository;
@@ -26,36 +27,27 @@ public class TaskService {
         return taskRepository.getTaskEntitiesByListId(listId);
     }
 
-    public void addTask(TaskRequestObject taskRequestObject) throws ParseException {
-//        TaskEntity taskEntity = new TaskEntity(
-//                taskRequestObject.getName(),
-//                format.parse(taskRequestObject.getDeadline()),
-//                Status.valueOf(taskRequestObject.getStatus()),
-//                Priority.valueOf(taskRequestObject.getPriority()),
-//                taskRequestObject.getListId()
-//        );
+    public TaskEntity addTask(TaskRequestObject taskRequestObject) throws ParseException {
         TaskEntity taskEntity = new TaskEntity();
-        taskEntity.setName(taskRequestObject.getName());
-        taskEntity.setDeadline(format.parse(taskRequestObject.getDeadline()));
+        taskEntity.setTitle(taskRequestObject.getName());
+        taskEntity.setDeadLine(format.parse(taskRequestObject.getDeadline()));
         taskEntity.setStatus(Status.valueOf(taskRequestObject.getStatus()));
         taskEntity.setPriority(Priority.valueOf(taskRequestObject.getPriority()));
         taskEntity.setListId(taskRequestObject.getListId());
-        System.out.println(taskRequestObject.getListId());
-
-        taskRepository.save(taskEntity);
+        return taskRepository.save(taskEntity);
     }
 
     public void deleteTask(Long taskId) {
         taskRepository.deleteById(taskId);
     }
 
-    public void changeTaskInfo(Long taskId, TaskRequestObject taskRequestObject) throws ParseException {
+    public TaskEntity changeTaskInfo(Long taskId, TaskRequestObject taskRequestObject) throws ParseException {
         TaskEntity taskEntity = taskRepository.getTaskEntityById(taskId);
-        taskEntity.setName(taskRequestObject.getName());
-        taskEntity.setDeadline(format.parse(taskRequestObject.getDeadline()));
+        taskEntity.setTitle(taskRequestObject.getName());
+        taskEntity.setDeadLine(format.parse(taskRequestObject.getDeadline()));
         taskEntity.setStatus(Status.valueOf(taskRequestObject.getStatus()));
         taskEntity.setPriority(Priority.valueOf(taskRequestObject.getPriority()));
         taskEntity.setListId(taskRequestObject.getListId());
-        taskRepository.save(taskEntity);
+        return taskRepository.save(taskEntity);
     }
 }

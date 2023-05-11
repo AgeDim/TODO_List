@@ -21,11 +21,11 @@ public class TaskEntity {
     private Long id;
 
     @Column(name = "name", columnDefinition = "varchar(255) NOT NULL")
-    private String name;
+    private String title;
 
     @Temporal(TemporalType.DATE)
     @Column(name="deadline", columnDefinition = "date")
-    private Date deadline;
+    private Date deadLine;
 
     @Column(name = "status", columnDefinition = "varchar(20) NOT NULL")
     private Status status;
@@ -37,8 +37,8 @@ public class TaskEntity {
     private Long listId;
 
     public TaskEntity(String name, Date deadline, Status status, Priority priority, Long listId){
-        this.name = name;
-        this.deadline = deadline;
+        this.title = name;
+        this.deadLine = deadline;
         this.status = status;
         this.priority = priority;
         this.listId = listId;

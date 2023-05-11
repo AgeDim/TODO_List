@@ -1,11 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import Header from './Header';
 import InputTodo from './InputTodo';
 import TodosList from './TodosList';
 import Navbar from './Navbar';
 import {Context} from "../index";
-import {addTodo, getSelectedTodo} from "../http/TodosAPI";
+import {addTodo, deleteTodo, getSelectedTodo} from "../http/TodosAPI";
 import {observer} from "mobx-react-lite";
 import ListsBar from "./ListsBar";
 import "../css/ToDoContainer.css"
@@ -21,11 +21,16 @@ const TodoContainer = observer(() => {
         })
     }, [user.user.email])
 
-    useEffect(()=>{
+
+    useEffect(() => {
         getSelectedTodo(user.selectedList).then(data => {
+            data.map((todo) => {
+                let tempDeadline = todo.deadLine.split("-");
+                todo.deadLine = tempDeadline[1] + "/" + tempDeadline[2] + "/" + tempDeadline[0]
+            })
             setTodos(data)
         })
-    },[user.selectedList])
+    }, [user.selectedList, user.lists])
 
     const handleChange = (id) => {
         setTodos((prevState) => prevState.map((todo) => {
@@ -40,6 +45,7 @@ const TodoContainer = observer(() => {
     };
 
     const delTodo = (id) => {
+        deleteTodo(id)
         setTodos([
             ...todos.filter((todo) => todo.id !== id),
         ]);
@@ -53,8 +59,7 @@ const TodoContainer = observer(() => {
             deadLine: deadLine,
             priority: priority
         };
-        addTodo(newTodo, user.selectedList.id)
-        setTodos([...todos, newTodo]);
+        addTodo(newTodo, user.selectedList.id).then(data => setTodos([...todos, data]))
     };
 
     const setUpdate = (updatedValue, type, id) => {
@@ -80,13 +85,12 @@ const TodoContainer = observer(() => {
             }),
         );
     };
-
     return (
         <div className="container">
             {user.isAuth && <Navbar/>}
             <div className="inner">
                 <div className="typeBar">
-                    <ListsBar/>
+                    <ListsBar clearTodos={setTodos}/>
                 </div>
                 <div className="todos">
                     <Header/>

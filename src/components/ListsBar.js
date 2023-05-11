@@ -7,13 +7,16 @@ import AddList from "./Modal/AddList";
 import {FaTrash} from 'react-icons/fa';
 import {deleteListOfToDos} from "../http/ListsAPI";
 
-const ListsBar = observer(() => {
+const ListsBar = observer(({clearTodos}) => {
     const {user} = useContext(Context)
     const [listsVisible, setListsVisible] = useState(false)
     const removeList = (id) => {
         deleteListOfToDos(id)
+        clearTodos([])
+        user.setSelectedList({})
         user.setLists(user.lists.filter(item => item.id !== id))
     }
+
     return (<Card style={{
         width: 230, boxShadow: "6px 5px 18px 15px rgba(34, 60, 80, 0.2)", left: 0, marginLeft: 10
     }}>
