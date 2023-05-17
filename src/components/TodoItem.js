@@ -1,11 +1,21 @@
 import React, {useContext, useEffect, useState} from 'react';
 import styles from '../css/TodoItem.module.css';
-import {Collapse, Dropdown, Button} from "@nextui-org/react";
+import {Collapse, Dropdown, Button, green} from "@nextui-org/react";
 import {FaTrash} from "react-icons/fa";
 import DatePicker from "react-datepicker"
 import 'react-datepicker/dist/react-datepicker.css'
 import {updateTodo} from "../http/TodosAPI";
 import {Context} from "../index";
+import {
+    Bs1CircleFill,
+    Bs2CircleFill,
+    Bs3CircleFill
+} from "react-icons/bs";
+import {
+    CiBatteryCharging,
+    CiBatteryEmpty,
+    CiBatteryFull
+} from "react-icons/ci"
 
 const TodoItem = (props) => {
     const [editingTitle, setEditingTitle] = useState(false);
@@ -13,6 +23,7 @@ const TodoItem = (props) => {
     const [editingPriority, setEditingPriority] = useState(false);
     const [editingStatus, setEditingStatus] = useState(false);
     const [valueChanges, setValueChanges] = useState(true)
+    const [isClose, setIsClose] = useState(true)
     const {user} = useContext(Context)
 
     const handleEditingTitle = () => {
@@ -77,12 +88,38 @@ const TodoItem = (props) => {
     } else {
         editModeStatus.display = 'none';
     }
+    const getStatus = (status) => {
+        switch (status) {
+            case "TODO":
+                return <CiBatteryEmpty size={"25"} color={"green"}/>
+            case "IN_PROGRESS":
+                return <CiBatteryCharging size={"25"} color={"green"}/>
+            case "COMPLETED":
+                return <CiBatteryFull size={"25"} color={"green"}/>
+        }
+    }
+    const getPriority = (priority) => {
+        switch (priority) {
+            case "HIGH":
+                return <Bs1CircleFill size={"25"} style={{marginRight: 20}}/>
+            case "MEDIUM":
+                return <Bs2CircleFill size={"25"} style={{marginRight: 20}}/>
+            case "LOW":
+                return <Bs3CircleFill size={"25"} style={{marginRight: 20}}/>
+        }
+    }
+    const getIcons = (isClose) => {
+        return isClose === true ? <span
+            style={{display: "flex"}}>{getPriority(props.todo.priority)}{getStatus(props.todo.status)}</span>: null
+    }
 
     return (
-        <Collapse title={title} style={status === "COMPLETED" ? completedStyle : null}>
+        <Collapse title={title} style={status === "COMPLETED" ? completedStyle : null} onClick={() => {
+            setIsClose((prevState) => !prevState)
+        }} arrowIcon={getIcons(isClose)}>
             <li className={styles.item}>
                 <div className={styles.item} onDoubleClick={handleEditingTitle} style={viewModeTitle}>
-                    <h3 style={{marginRight:10}}>Name: </h3>
+                    <h3 style={{marginRight: 10}}>Name: </h3>
                     <span style={status === "COMPLETED" ? completedStyle : null}>{title}</span>
                 </div>
                 <input
@@ -154,16 +191,22 @@ const TodoItem = (props) => {
                 marginTop: 10,
                 border: "none",
                 marginLeft: 10
-            }} auto onPress={() => {updateTodo({
-                id: id,
-                name: title,
-                deadline: deadLine,
-                status: status,
-                priority: priority
-            }, user.selectedList.id); setValueChanges(true); setInitialState({status: status,
-                title: title,
-                deadLine: deadLine,
-                priority: priority})}}>
+            }} auto onPress={() => {
+                updateTodo({
+                    id: id,
+                    name: title,
+                    deadline: deadLine,
+                    status: status,
+                    priority: priority
+                }, user.selectedList.id);
+                setValueChanges(true);
+                setInitialState({
+                    status: status,
+                    title: title,
+                    deadLine: deadLine,
+                    priority: priority
+                })
+            }}>
                 Success
             </Button>
         </Collapse>

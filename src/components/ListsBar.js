@@ -18,7 +18,7 @@ const ListsBar = observer(({clearTodos}) => {
     }
 
     return (<Card style={{
-        width: 230, boxShadow: "6px 5px 18px 15px rgba(34, 60, 80, 0.2)", left: 0, marginLeft: 10
+        width: 230, left: 0, marginLeft: 10
     }}>
         <h3 style={{textAlign: "center", marginTop: 10, display: "flex", marginLeft: 12, marginBottom: 0}}>Lists of Todo
             <button type="button" className="input-submit" onClick={() => setListsVisible(true)}>

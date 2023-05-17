@@ -39,9 +39,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            {!user.isAuth ? <button className="login_btn" onClick={() => {
-                    history.push(LOGIN_ROUTE)
-                }}>Login</button> :
+            {!user.isAuth ? null :
                 <button className="logout_btn" onClick={() => {
                     logout()
                 }}>Logout</button>}

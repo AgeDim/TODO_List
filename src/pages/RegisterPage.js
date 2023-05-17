@@ -25,8 +25,6 @@ const RegisterPage = observer(() => {
             document.getElementById("reg_err_msg").textContent = "Repeated password incorrectly"
         } else if (!validator.isStrongPassword(document.getElementById("reg_pass").value, {minSymbols: 0})) {
             document.getElementById("reg_err_msg").textContent = "Password must consist of one lowercase, uppercase letter and number, at least 8 characters"
-        } else if (!checkBox.checked) {
-            document.getElementById("reg_err_msg").textContent = 'You need to accept personal data processing policies!'
         } else {
             try {
                 let data = await register(email, password)
@@ -42,28 +40,24 @@ const RegisterPage = observer(() => {
     }
     return (<Container id="flex-container">
         <Card id="form" className="align-items-center">
-            <h2 style={{marginTop:30, marginBottom:15}}>Регистрация</h2>
+            <h2 style={{marginTop:30, marginBottom:15}}>Sign up</h2>
             <Form className="d-flex flex-column">
                 <h5 className="mt-0">E-mail</h5>
-                <Form.Control className="mb-3" id="reg_email" placeholder="Введите ваш e-mail..."
+                <Form.Control className="mb-3" id="reg_email" placeholder="Enter your e-mail..."
                               type="email" onChange={e => setEmail(e.target.value)}></Form.Control>
-                <h5>Придумайте пароль</h5>
-                <Form.Control className="mb-3" id="reg_pass" placeholder="Введите ваш пароль..."
+                <h5>Create a password</h5>
+                <Form.Control className="mb-3" id="reg_pass" placeholder="Enter password..."
                               type="password" onChange={e => setPassword(e.target.value)}></Form.Control>
-                <h5>Повторите пароль</h5>
-                <Form.Control className="mb-3" id="reg_pass1" placeholder="Повторите ваш пароль..."
+                <h5>Repeat the password</h5>
+                <Form.Control className="mb-3" id="reg_pass1" placeholder="Repeat the password..."
                               type="password"></Form.Control>
                 <div style={{color: "red", fontSize: 20}} id="reg_err_msg"></div>
-                <Row><Col md={1}><input id="reg_check" type="checkbox"/></Col><Col><h6>Я согласен с <a
-                    href="https://www.securitycode.ru/personal-data/"
-                    style={{color: "lightblue"}}>политикой обработки персональных
-                    данных</a></h6></Col></Row>
                 <Button className="w-20 align-self-center" variant="secondary" color="gray" style={{marginRight: 10}}
                         onClick={() => {
                             click()
                         }}>Finish registration!</Button>
                 <a href={"/login"} className="align-self-center mt-3 mb-3"
-                   style={{fontSize: 18, color: "black", textDecoration: "none"}}>У меня есть аккаунт</a>
+                   style={{fontSize: 18, color: "black", textDecoration: "none"}}>I have an account</a>
             </Form>
         </Card>
     </Container>);
